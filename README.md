@@ -2,6 +2,8 @@
 
 **Highlight to Link** is a Firefox extension that enhances your browsing experience by allowing you to create direct links to selected text on any webpage. Whether you're a student, researcher, or just curious, this extension makes sharing and saving important information easier.
 
+## Try me! Click [here](https://github.com/JaceTheBlu/Highlight-to-Link#:~:text=Whether%20you're%20a%20student%2C) to see the result
+
 ## Features
 
 - **Quick Selection**: Highlight any text on a webpage and right-click to generate a direct link.
