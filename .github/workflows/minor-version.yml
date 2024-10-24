@@ -1,0 +1,36 @@
+name: Patch Version Increment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump_patch_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update Patch Version
+        run: |
+          # Get current version from manifest.json
+          VERSION=$(jq -r '.version' manifest.json)
+          IFS='.' read -r major minor patch <<< "$VERSION"
+
+          # Increment patch version
+          patch=$((patch + 1))
+          NEW_VERSION="$major.$minor.$patch"
+
+          # Update manifest.json with the new version
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' manifest.json > tmp.json && mv tmp.json manifest.json
+
+          echo "Patch version updated to $NEW_VERSION"
+
+      - name: Commit patch version change
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add manifest.json
+          git commit -m "ci: bump patch version"
+          git push

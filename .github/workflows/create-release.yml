@@ -1,0 +1,22 @@
+name: Create Release
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Zip specified files
+        run: |
+          # Create a zip file with only the specified files and directories
+          zip -r highlight-to-link.zip _locales icons background.js LICENCE manifest.json
+
+      - name: Upload Release
+        uses: actions/upload-artifact@v2
+        with:
+          name: highlight-to-link
+          path: highlight-to-link.zip

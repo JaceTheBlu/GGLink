@@ -1,0 +1,34 @@
+name: Major Version Change
+
+on:
+  workflow_dispatch:
+
+jobs:
+  major_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update Major Version
+        run: |
+          # Get current version from manifest.json
+          VERSION=$(jq -r '.version' manifest.json)
+          IFS='.' read -r major minor patch <<< "$VERSION"
+
+          # Increment major version
+          major=$((major + 1))
+          NEW_VERSION="$major.0.0"
+
+          # Update manifest.json with the new version
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' manifest.json > tmp.json && mv tmp.json manifest.json
+
+          echo "Major version updated to $NEW_VERSION"
+
+      - name: Commit major version change
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add manifest.json
+          git commit -m "ci: bump major version"
+          git push
