@@ -1,22 +1,68 @@
 name: Create Release
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  release:
+  bump_version_and_release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Update Patch Version
+        id: version_update
+        run: |
+          # Get current version from manifest.json
+          VERSION=$(jq -r '.version' manifest.json)
+          IFS='.' read -r major minor patch <<< "$VERSION"
+
+          # Increment patch version
+          patch=$((patch + 1))
+          NEW_VERSION="$major.$minor.$patch"
+
+          # Update manifest.json with the new version
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' manifest.json > tmp.json && mv tmp.json manifest.json
+
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "Patch version updated to $NEW_VERSION"
+
+      - name: Commit and push patch version
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add manifest.json
+          git commit -m "ci: bump patch version to ${{ env.NEW_VERSION }}"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:main
+
       - name: Zip specified files
         run: |
-          # Create a zip file with only the specified files and directories
           zip -r highlight-to-link.zip _locales icons background.js LICENCE manifest.json
 
-      - name: Upload Release
+      - name: Upload Release Artifact
         uses: actions/upload-artifact@v4
         with:
           name: highlight-to-link
           path: highlight-to-link.zip
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ env.NEW_VERSION }}"    # Tagging with the new version
+          release_name: "Release v${{ env.NEW_VERSION }}"   # Name of the release
+          body: "Automated release for version v${{ env.NEW_VERSION }}"  # Custom message for the release notes
+          draft: false  # Publish the release automatically
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./highlight-to-link.zip
+          asset_name: highlight-to-link.zip
+          asset_content_type: application/zip
