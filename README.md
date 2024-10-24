@@ -12,8 +12,4 @@
 
 ## Installation
 
-1. **Download the Source Code**:
-   - Clone this repository or download it as a ZIP file.
-
-   ```bash
-   git clone https://github.com/JaceTheBlu/Highlight-to-Link.git
+1. **Download from [Firefox Extension Store](https://addons.mozilla.org/en-US/firefox/addon/highlight-to-link/)**
