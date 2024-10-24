@@ -1,8 +1,9 @@
+[![Icon](./icons/icon64.png)](https://www.youtube.com/watch?v=dQw4w9WgXcQ#:~:text=Never%20gonna%20give%20you%20up)
 # Highlight to Link 🔗
 
 **Highlight to Link** is a Firefox extension that enhances your browsing experience by allowing you to create direct links to selected text on any webpage. Whether you're a student, researcher, or just curious, this extension makes sharing and saving important information easier.
 
-## Try me! Click [here](https://github.com/JaceTheBlu/Highlight-to-Link?tab=readme-ov-file#:~:text=saving%20important%20information%20easier.) to see the result
+## Try me! Click [![Icon](./icons/icon32.png)](https://github.com/JaceTheBlu/Highlight-to-Link?tab=readme-ov-file#:~:text=saving%20important%20information%20easier.) to see the result
 
 ## Features
 
