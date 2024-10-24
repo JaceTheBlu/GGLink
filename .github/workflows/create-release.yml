@@ -16,7 +16,7 @@ jobs:
           zip -r highlight-to-link.zip _locales icons background.js LICENCE manifest.json
 
       - name: Upload Release
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: highlight-to-link
           path: highlight-to-link.zip
