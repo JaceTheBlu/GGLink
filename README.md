@@ -14,4 +14,4 @@
    - Clonez ce dépôt ou téléchargez-le en tant que fichier ZIP.
 
    ```bash
-   git clone https://github.com/votre-utilisateur/highlight-to-link.git
+   git clone https://github.com/JaceTheBlu/Highlight-to-Link.git
