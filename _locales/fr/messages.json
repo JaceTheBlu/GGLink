@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Highlight to Link 🔗",
+    "description": "Nom de l'extension."
+  },
+  "extensionDescription": {
+    "message": "Améliorez votre expérience de navigation en créant des liens directs vers des passages de texte sélectionnés sur n'importe quelle page web !",
+    "description": ""
+  },
+  "menuSelection": {
+    "message": "Copier le lien vers '%s'",
+    "description": ""
+  }
+}
